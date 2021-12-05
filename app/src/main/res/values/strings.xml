@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">crypto-demo</string>
+    <string name="load_list">Load list</string>
+    <string name="sort_list">Sort list</string>
+    <string name="crypto_currency">CRYPTOCURRENCY</string>
 </resources>

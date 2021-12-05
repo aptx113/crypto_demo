@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CryptoDemo">
         <activity
-            android:name="com.danteyu.studio.crypto.MainActivity"
+            android:name="com.danteyu.studio.crypto.DemoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
