@@ -13,7 +13,8 @@
     <color name="underline">#edeeef</color>
     <color name="crypto_icon">#626972</color>
     <color name="crypto_name">#0b1426</color>
-    <color name="crypto_nickname">#626973</color>
+    <color name="crypto_symbol">#626973</color>
+    <color name="arrow">#999999</color>
     <color name="divider">#eaebec</color>
 
 </resources>
