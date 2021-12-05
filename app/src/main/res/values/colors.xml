@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="hint">#929393</color>
+    <color name="edit">#f7f9fa</color>
+    <color name="underline">#edeeef</color>
+    <color name="crypto_icon">#626972</color>
+    <color name="crypto_name">#0b1426</color>
+    <color name="crypto_nickname">#626973</color>
+    <color name="divider">#eaebec</color>
+
 </resources>
