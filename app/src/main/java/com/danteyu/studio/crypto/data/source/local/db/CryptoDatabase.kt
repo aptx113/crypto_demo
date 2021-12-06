@@ -22,7 +22,7 @@ import com.danteyu.studio.crypto.model.CurrencyInfo
 /**
  * Created by George Yu in Dec. 2021.
  */
-@Database(entities = [CurrencyInfo::class], version = 1)
+@Database(entities = [CurrencyInfo::class], version = 1, exportSchema = false)
 abstract class CryptoDatabase : RoomDatabase() {
     abstract fun cryptoDao(): CryptoDao
 }

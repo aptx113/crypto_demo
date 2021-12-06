@@ -30,5 +30,5 @@ interface CryptoDao {
     fun getAllCryptoInfo(): Flow<List<CurrencyInfo>>
 
     @Insert
-    fun insertAll(vararg currencyInfo: CurrencyInfo)
+    suspend fun insertAll(currencyInfo: List<CurrencyInfo>)
 }

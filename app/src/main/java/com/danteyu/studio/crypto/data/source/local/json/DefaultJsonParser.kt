@@ -19,18 +19,19 @@ import android.content.Context
 import com.danteyu.studio.crypto.ext.generateObjectsFromAsset
 import com.danteyu.studio.crypto.model.CurrencyInfo
 import com.squareup.moshi.Moshi
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-class DefaultJsonParser(
-    private val context: Context,
-    private val moshi: Moshi,
-    private val fileName: String
+class DefaultJsonParser @Inject constructor(
+    @ApplicationContext val context: Context,
+    private val moshi: Moshi
 ) :
     JsonParser {
 
-    override fun getCurrencyInfoFromAsset(): List<CurrencyInfo>? {
+    override fun getCurrencyInfoFromAsset(fileName: String): List<CurrencyInfo>? {
         return context.generateObjectsFromAsset(moshi, fileName)
     }
 }

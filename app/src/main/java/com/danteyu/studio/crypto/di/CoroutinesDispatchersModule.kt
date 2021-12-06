@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.ui.currency
+package com.danteyu.studio.crypto.di
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.danteyu.studio.crypto.databinding.FragListCurrencyBinding
-import dagger.hilt.android.AndroidEntryPoint
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-@AndroidEntryPoint
-class CurrencyListFragment : Fragment() {
+@InstallIn(SingletonComponent::class)
+@Module
+object CoroutinesDispatchersModule {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = FragListCurrencyBinding.inflate(layoutInflater, container, false).root
+    @Provides
+    fun bindDispatcher() = Dispatchers.IO
 }
