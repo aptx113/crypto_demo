@@ -19,3 +19,5 @@ package com.danteyu.studio.crypto
  * Created by George Yu in Dec. 2021.
  */
 const val JSON_FILE = "currency.json"
+
+const val CURRENCY_TABLE = "currency_table"

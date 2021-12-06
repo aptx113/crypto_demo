@@ -13,20 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.model
+package com.danteyu.studio.crypto.data.source.local.db
 
-import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.danteyu.studio.crypto.CURRENCY_TABLE
-import com.squareup.moshi.JsonClass
-import kotlinx.parcelize.Parcelize
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import com.danteyu.studio.crypto.model.CurrencyInfo
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-@JsonClass(generateAdapter = true)
-@Entity(tableName = CURRENCY_TABLE)
-@Parcelize
-data class CurrencyInfo(@PrimaryKey val id: String, val name: String, val symbol: String) :
-    Parcelable
+@Dao
+interface CryptoDao {
+    @Query("SELECT*FROM  currency_table")
+    fun getAllCryptoInfo(): Flow<List<CurrencyInfo>>
+
+    @Insert
+    fun insertAll(vararg currencyInfo: CurrencyInfo)
+}

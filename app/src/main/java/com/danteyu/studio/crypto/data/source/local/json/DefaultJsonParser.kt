@@ -13,20 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.model
+package com.danteyu.studio.crypto.data.source.local.json
 
-import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.danteyu.studio.crypto.CURRENCY_TABLE
-import com.squareup.moshi.JsonClass
-import kotlinx.parcelize.Parcelize
+import android.content.Context
+import com.danteyu.studio.crypto.ext.generateObjectsFromAsset
+import com.danteyu.studio.crypto.model.CurrencyInfo
+import com.squareup.moshi.Moshi
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-@JsonClass(generateAdapter = true)
-@Entity(tableName = CURRENCY_TABLE)
-@Parcelize
-data class CurrencyInfo(@PrimaryKey val id: String, val name: String, val symbol: String) :
-    Parcelable
+class DefaultJsonParser(
+    private val context: Context,
+    private val moshi: Moshi,
+    private val fileName: String
+) :
+    JsonParser {
+
+    override fun getCurrencyInfoFromAsset(): List<CurrencyInfo>? {
+        return context.generateObjectsFromAsset(moshi, fileName)
+    }
+}

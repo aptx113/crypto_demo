@@ -13,24 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.data.source.api
+package com.danteyu.studio.crypto.data.source.local.json
 
-import android.content.Context
-import com.danteyu.studio.crypto.ext.generateObjectsFromAsset
 import com.danteyu.studio.crypto.model.CurrencyInfo
-import com.squareup.moshi.Moshi
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-class DefaultJsonService(
-    private val context: Context,
-    private val moshi: Moshi,
-    private val fileName: String
-) :
-    JsonService {
-
-    override fun getCurrencyInfoFromAsset(): List<CurrencyInfo>? {
-        return context.generateObjectsFromAsset(moshi, fileName)
-    }
+interface JsonParser {
+    fun getCurrencyInfoFromAsset(): List<CurrencyInfo>?
 }

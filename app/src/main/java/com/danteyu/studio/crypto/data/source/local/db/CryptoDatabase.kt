@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.data.source.api
+package com.danteyu.studio.crypto.data.source.local.db
 
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.danteyu.studio.crypto.model.CurrencyInfo
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-interface JsonService {
-    fun getCurrencyInfoFromAsset(): List<CurrencyInfo>?
+@Database(entities = [CurrencyInfo::class], version = 1)
+abstract class CryptoDatabase : RoomDatabase() {
+    abstract fun cryptoDao(): CryptoDao
 }
