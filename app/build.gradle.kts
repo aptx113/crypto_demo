@@ -93,6 +93,8 @@ android {
         exclude("META-INF/kotlinx-metadata.kotlin_module")
         exclude("META-INF/core.kotlin_module")
         exclude("META-INF/specs.kotlin_module")
+        pickFirst("META-INF/AL2.0")
+        pickFirst("META-INF/LGPL2.1")
     }
 
     sourceSets {

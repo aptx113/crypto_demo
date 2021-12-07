@@ -11,5 +11,5 @@ object AndroidConfig {
     const val VERSION_CODE = 1
     const val VERSION_NAME = "0.1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
-    const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
+    const val TEST_INSTRUMENTATION_RUNNER = "com.danteyu.studio.crypto.HiltTestRunner"
 }
