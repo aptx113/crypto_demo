@@ -13,31 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto
+package com.danteyu.studio.crypto.di
 
-import kotlinx.coroutines.Dispatchers
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
+import javax.inject.Named
+import javax.inject.Singleton
 
 /**
- * Created by George Yu in Dec. 2021.
+ * Created by George Yu in 12月. 2021.
  */
 @ExperimentalCoroutinesApi
-class MainCoroutineRule(val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()) :
-    TestWatcher() {
+@InstallIn(SingletonComponent::class)
+@Module
+object TestCoroutineModule {
 
-    override fun starting(description: Description?) {
-        super.starting(description)
-        Dispatchers.setMain(dispatcher)
-    }
-
-    override fun finished(description: Description?) {
-        super.finished(description)
-        Dispatchers.resetMain()
-        dispatcher.cleanupTestCoroutines()
-    }
+    @Named("test_dispatchers")
+    @Singleton
+    @Provides
+    fun provideTestDispatchers() = TestCoroutineDispatcher()
 }

@@ -13,21 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.di
+package com.danteyu.studio.crypto.data
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.Dispatchers
+import com.danteyu.studio.crypto.model.CurrencyInfo
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-@InstallIn(SingletonComponent::class)
-@Module
-object CoroutinesDispatchersModule {
-
-    @Provides
-    fun provideDispatcher() = Dispatchers.IO
+val mockCurrencyInfoList by lazy {
+    listOf(
+        CurrencyInfo("ONT", "Ontology", "ONT"),
+        CurrencyInfo("CRO", "Crypto.com Chain", "CRO"),
+        CurrencyInfo("CUC", "Cucumber", "CUC"),
+        CurrencyInfo("USDC", "USD Coin", "USDC")
+    )
 }

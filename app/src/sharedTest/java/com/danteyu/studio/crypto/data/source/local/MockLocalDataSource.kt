@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.di
+package com.danteyu.studio.crypto.data.source.local
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.Dispatchers
+import com.danteyu.studio.crypto.data.mockCurrencyInfoList
+import com.danteyu.studio.crypto.data.source.DataSource
+import com.danteyu.studio.crypto.model.CurrencyInfo
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-@InstallIn(SingletonComponent::class)
-@Module
-object CoroutinesDispatchersModule {
-
-    @Provides
-    fun provideDispatcher() = Dispatchers.IO
+class MockLocalDataSource(private val isNullTest: Boolean = false) : DataSource {
+    override suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>>? {
+        return if (isNullTest) null else flow { emit(mockCurrencyInfoList) }
+    }
 }

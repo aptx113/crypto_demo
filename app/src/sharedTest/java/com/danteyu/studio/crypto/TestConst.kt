@@ -13,21 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.di
-
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.Dispatchers
+package com.danteyu.studio.crypto
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-@InstallIn(SingletonComponent::class)
-@Module
-object CoroutinesDispatchersModule {
-
-    @Provides
-    fun provideDispatcher() = Dispatchers.IO
-}
+const val TEST_FILE = "test_currency.json"
+const val NONEXISTENT_FILE = "nonexistentFile.json"

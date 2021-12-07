@@ -21,8 +21,6 @@ import com.danteyu.studio.crypto.model.CurrencyInfo
 import com.google.common.truth.Truth
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import javax.inject.Inject
-import javax.inject.Named
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
@@ -30,6 +28,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * Created by George Yu in Dec. 2021.
@@ -66,7 +66,7 @@ class CryptoDaoTest {
     }
 
     @Test
-    fun getCurrencyInfo()= runBlockingTest {
+    fun getCurrencyInfo() = runBlockingTest {
         dao.insertAll(listOf(currencyInfoA, currencyInfoB, currencyInfoC))
         val currencyList = dao.getAllCryptoInfo().first()
         Truth.assertThat(currencyList.size).isEqualTo(3)

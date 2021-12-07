@@ -15,7 +15,6 @@
  */
 package com.danteyu.studio.crypto.data.source.local
 
-import com.danteyu.studio.crypto.JSON_FILE
 import com.danteyu.studio.crypto.data.source.DataSource
 import com.danteyu.studio.crypto.data.source.local.db.CryptoDao
 import com.danteyu.studio.crypto.data.source.local.json.JsonParser
@@ -34,11 +33,10 @@ class LocalDataSource @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher
 ) :
     DataSource {
-
-    override fun getAllCurrencyInfoFlow(): Flow<List<CurrencyInfo>> = dao.getAllCryptoInfo()
-
-    override suspend fun insertCurrencyInfo() = withContext(ioDispatcher) {
-        val currencyInfoObjects = jsonParser.getCurrencyInfoFromAsset(JSON_FILE)
-        currencyInfoObjects?.let { dao.insertAll(it) }
-    }
+    override suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>> =
+        withContext(ioDispatcher) {
+            val currencyInfoObjects = jsonParser.getCurrencyInfoFromAsset(fileName)
+            currencyInfoObjects?.let { dao.insertAll(it) }
+            dao.getAllCryptoInfo()
+        }
 }

@@ -22,7 +22,5 @@ import kotlinx.coroutines.flow.Flow
  * Created by George Yu in Dec. 2021.
  */
 interface DataSource {
-
-    fun getAllCurrencyInfoFlow(): Flow<List<CurrencyInfo>>
-    suspend fun insertCurrencyInfo(): Unit?
+    suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>>?
 }

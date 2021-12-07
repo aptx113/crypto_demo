@@ -13,21 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.di
+package com.danteyu.studio.crypto.data.repository
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.Dispatchers
+import com.danteyu.studio.crypto.model.CurrencyInfo
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-@InstallIn(SingletonComponent::class)
-@Module
-object CoroutinesDispatchersModule {
-
-    @Provides
-    fun provideDispatcher() = Dispatchers.IO
+interface Repository {
+    suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>>?
 }

@@ -180,7 +180,7 @@ object Libraries {
     }
 
     val kaptLibraries = arrayListOf<String>().apply {
-        add(Hilt.COMPILER)
+        add(Hilt.KAPT_TEST)
         add(Room.COMPILER)
     }
 }

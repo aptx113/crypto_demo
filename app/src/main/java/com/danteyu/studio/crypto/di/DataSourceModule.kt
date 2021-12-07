@@ -15,19 +15,22 @@
  */
 package com.danteyu.studio.crypto.di
 
+import com.danteyu.studio.crypto.data.source.DataSource
+import com.danteyu.studio.crypto.data.source.local.LocalDataSource
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.Dispatchers
+import javax.inject.Singleton
 
 /**
  * Created by George Yu in Dec. 2021.
  */
 @InstallIn(SingletonComponent::class)
 @Module
-object CoroutinesDispatchersModule {
+abstract class DataSourceModule {
 
-    @Provides
-    fun provideDispatcher() = Dispatchers.IO
+    @Singleton
+    @Binds
+    abstract fun bindLocalDataSource(localDataSource: LocalDataSource): DataSource
 }

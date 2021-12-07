@@ -15,22 +15,18 @@
  */
 package com.danteyu.studio.crypto.data.source.local.json
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
+import com.danteyu.studio.crypto.NONEXISTENT_FILE
+import com.danteyu.studio.crypto.TEST_FILE
 import com.danteyu.studio.crypto.model.CurrencyInfo
 import com.google.common.truth.Truth
 import com.squareup.moshi.Moshi
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import javax.inject.Inject
-import javax.inject.Named
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-
-private const val TEST_FILE = "test_currency.json"
-private const val NONEXISTENT_FILE = "nonexistentFile.json"
+import javax.inject.Inject
 
 /**
  * Created by George Yu in Dec. 2021.

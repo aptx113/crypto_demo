@@ -15,19 +15,22 @@
  */
 package com.danteyu.studio.crypto.di
 
+import com.danteyu.studio.crypto.data.repository.DefaultRepository
+import com.danteyu.studio.crypto.data.repository.Repository
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.Dispatchers
+import javax.inject.Singleton
 
 /**
  * Created by George Yu in Dec. 2021.
  */
 @InstallIn(SingletonComponent::class)
 @Module
-object CoroutinesDispatchersModule {
+abstract class RepositoryModule {
 
-    @Provides
-    fun provideDispatcher() = Dispatchers.IO
+    @Singleton
+    @Binds
+    abstract fun bindDefaultRepository(repository: DefaultRepository): Repository
 }
