@@ -15,20 +15,21 @@
  */
 package com.danteyu.studio.crypto.data.source.local.db
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
 import com.danteyu.studio.crypto.model.CurrencyInfo
 import com.google.common.truth.Truth
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import javax.inject.Inject
+import javax.inject.Named
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * Created by George Yu in Dec. 2021.
@@ -37,6 +38,9 @@ import javax.inject.Named
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class CryptoDaoTest {
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
@@ -62,13 +66,10 @@ class CryptoDaoTest {
     }
 
     @Test
-    fun getCurrencyInfo() = runBlockingTest {
+    fun getCurrencyInfo()= runBlockingTest {
         dao.insertAll(listOf(currencyInfoA, currencyInfoB, currencyInfoC))
-        val currencyInfoList = dao.getAllCryptoInfo().toList()
-
-        Truth.assertThat(currencyInfoList.size).isEqualTo(3)
-
-        Truth.assertThat(currencyInfoList[1]).isEqualTo(currencyInfoB)
-        Truth.assertThat(currencyInfoList[2]).isEqualTo(currencyInfoC)
+        val currencyList = dao.getAllCryptoInfo().first()
+        Truth.assertThat(currencyList.size).isEqualTo(3)
+        Truth.assertThat(currencyList[0]).isEqualTo(currencyInfoA)
     }
 }

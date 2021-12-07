@@ -1,0 +1,22 @@
+[
+  {
+    "id": "ONT",
+    "name": "Ontology",
+    "symbol": "ONT"
+  },
+  {
+    "id": "CRO",
+    "name": "Crypto.com Chain",
+    "symbol": "CRO"
+  },
+  {
+    "id": "CUC",
+    "name": "Cucumber",
+    "symbol": "CUC"
+  },
+  {
+    "id": "USDC",
+    "name": "USD Coin",
+    "symbol": "USDC"
+  }
+]
