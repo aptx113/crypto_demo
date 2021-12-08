@@ -36,7 +36,7 @@ inline fun <reified T> Context.generateObjectsFromAsset(
         assets.open(fileName).bufferedReader().use { it.readText() }
     } catch (e: IOException) {
         Timber.e("Exception: $e")
-        ""
+        null
     }
     return jsonObjectResponse?.let { adapter.fromJson(it) }
 }

@@ -21,5 +21,5 @@ import com.danteyu.studio.crypto.model.CurrencyInfo
  * Created by George Yu in Dec. 2021.
  */
 interface JsonParser {
-    fun getCurrencyInfoFromAsset(): List<CurrencyInfo>?
+    fun getCurrencyInfoFromAsset(fileName: String): List<CurrencyInfo>?
 }

@@ -17,6 +17,7 @@ package com.danteyu.studio.crypto.data.source.local.db
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.danteyu.studio.crypto.model.CurrencyInfo
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,6 @@ interface CryptoDao {
     @Query("SELECT*FROM  currency_table")
     fun getAllCryptoInfo(): Flow<List<CurrencyInfo>>
 
-    @Insert
-    fun insertAll(vararg currencyInfo: CurrencyInfo)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(currencyInfo: List<CurrencyInfo>)
 }

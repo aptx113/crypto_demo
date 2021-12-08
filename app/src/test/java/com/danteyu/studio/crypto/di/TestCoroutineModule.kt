@@ -13,16 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.data.source.local.db
+package com.danteyu.studio.crypto.di
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import com.danteyu.studio.crypto.model.CurrencyInfo
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import javax.inject.Named
+import javax.inject.Singleton
 
 /**
- * Created by George Yu in Dec. 2021.
+ * Created by George Yu in 12月. 2021.
  */
-@Database(entities = [CurrencyInfo::class], version = 1, exportSchema = false)
-abstract class CryptoDatabase : RoomDatabase() {
-    abstract fun cryptoDao(): CryptoDao
+@ExperimentalCoroutinesApi
+@InstallIn(SingletonComponent::class)
+@Module
+object TestCoroutineModule {
+
+    @Named("test_dispatchers")
+    @Singleton
+    @Provides
+    fun provideTestDispatchers() = TestCoroutineDispatcher()
 }

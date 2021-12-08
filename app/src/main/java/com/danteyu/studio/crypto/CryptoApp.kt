@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.ui.currency
+package com.danteyu.studio.crypto
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.danteyu.studio.crypto.databinding.FragListCurrencyBinding
-import dagger.hilt.android.AndroidEntryPoint
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
+import kotlin.properties.Delegates
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-@AndroidEntryPoint
-class CurrencyListFragment : Fragment() {
+@HiltAndroidApp
+class CryptoApp : Application() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = FragListCurrencyBinding.inflate(layoutInflater, container, false).root
+    companion object {
+        var instance: CryptoApp by Delegates.notNull()
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+    }
 }

@@ -13,25 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.data.source.local.json
+package com.danteyu.studio.crypto.di
 
 import android.content.Context
-import com.danteyu.studio.crypto.ext.generateObjectsFromAsset
-import com.danteyu.studio.crypto.model.CurrencyInfo
-import com.squareup.moshi.Moshi
+import androidx.room.Room
+import com.danteyu.studio.crypto.data.source.local.db.CryptoDatabase
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Named
+import javax.inject.Singleton
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-class DefaultJsonParser @Inject constructor(
-    @ApplicationContext val context: Context,
-    private val moshi: Moshi
-) :
-    JsonParser {
+@ExperimentalCoroutinesApi
+@InstallIn(SingletonComponent::class)
+@Module
+object TestDatabaseModule {
 
-    override fun getCurrencyInfoFromAsset(fileName: String): List<CurrencyInfo>? {
-        return context.generateObjectsFromAsset(moshi, fileName)
-    }
+    @Singleton
+    @Provides
+    @Named("testDatabase")
+    fun provideInMemoryDatabase(
+        @ApplicationContext context: Context
+    ) =
+        Room.inMemoryDatabaseBuilder(context, CryptoDatabase::class.java)
+            .allowMainThreadQueries().build()
 }

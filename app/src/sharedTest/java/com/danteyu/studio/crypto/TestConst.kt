@@ -13,25 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.ui.currency
-
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.danteyu.studio.crypto.databinding.FragListCurrencyBinding
-import dagger.hilt.android.AndroidEntryPoint
+package com.danteyu.studio.crypto
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-@AndroidEntryPoint
-class CurrencyListFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = FragListCurrencyBinding.inflate(layoutInflater, container, false).root
-}
+const val TEST_FILE = "test_currency.json"
+const val NONEXISTENT_FILE = "nonexistentFile.json"

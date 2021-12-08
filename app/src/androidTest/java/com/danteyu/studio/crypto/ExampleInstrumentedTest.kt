@@ -32,6 +32,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.danteyu.studio.my_android_template", appContext.packageName)
+        assertEquals("com.danteyu.studio.crypto.dev.debug", appContext.packageName)
     }
 }
