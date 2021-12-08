@@ -20,13 +20,14 @@ import androidx.lifecycle.viewModelScope
 import com.danteyu.studio.crypto.data.repository.Repository
 import com.danteyu.studio.crypto.model.CurrencyInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlinx.coroutines.flow.filterNotNull
 
 /**
  * Created by George Yu in Dec. 2021.
@@ -43,14 +44,15 @@ class DemoViewModel @Inject constructor(private val repository: Repository) : Vi
     private val eventSortChannel = Channel<Boolean>(Channel.CONFLATED)
     val eventSortFlow = eventSortChannel.receiveAsFlow()
 
-    fun getAllCurrencyInfoFlow() =
+    fun getAllCurrencyInfoFlow(fileName: String) =
         viewModelScope.launch {
-            repository.parseJsonAndGetAll(JSON_FILE)
+            repository.parseJsonAndGetAll(fileName)
+                ?.filterNotNull()
                 ?.collect {
                     _currencyInfoListFlow.value = it
                 }
         }
 
-    fun displayBtnClicked() = viewModelScope.launch { eventDisplayChannel.send(true) }
-    fun sortBtnClicked() = viewModelScope.launch { eventSortChannel.send(true) }
+    fun onDisplayBtnClicked() = viewModelScope.launch { eventDisplayChannel.send(true) }
+    fun onSortBtnClicked() = viewModelScope.launch { eventSortChannel.send(true) }
 }
