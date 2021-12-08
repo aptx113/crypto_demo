@@ -13,18 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.data.repository
+package com.danteyu.studio.crypto.ui.common
 
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.crypto.model.CurrencyInfo
-import kotlinx.coroutines.flow.Flow
+import com.danteyu.studio.crypto.ui.currency.CurrencyListAdapter
 
 /**
- * Created by George Yu in Dec. 2021.
+ * Created by George Yu in 12月. 2021.
  */
-class MockDefaultRepository : Repository {
+object CommonBindings {
 
-    var currencyInfoListFlow: Flow<List<CurrencyInfo>>? = null
-
-    override suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>>? =
-        currencyInfoListFlow
+    @JvmStatic
+    @BindingAdapter("listData")
+    fun bindListData(recyclerView: RecyclerView, items: List<*>?) {
+        items?.let {
+            with(recyclerView.adapter ?: return) {
+                when (this) {
+                    is CurrencyListAdapter -> submitList(it.filterIsInstance<CurrencyInfo>())
+                }
+            }
+        }
+    }
 }

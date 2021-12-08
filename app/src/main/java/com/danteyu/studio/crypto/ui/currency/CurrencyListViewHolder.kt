@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.data.repository
+package com.danteyu.studio.crypto.ui.currency
 
+import androidx.recyclerview.widget.RecyclerView
+import com.danteyu.studio.crypto.databinding.ItemCurrencyBinding
 import com.danteyu.studio.crypto.model.CurrencyInfo
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-class MockDefaultRepository : Repository {
+class CurrencyListViewHolder(private val viewDataBinding: ItemCurrencyBinding) :
+    RecyclerView.ViewHolder(viewDataBinding.root) {
 
-    var currencyInfoListFlow: Flow<List<CurrencyInfo>>? = null
-
-    override suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>>? =
-        currencyInfoListFlow
+    fun bind(currencyInfo: CurrencyInfo) {
+        viewDataBinding.currencyInfo =
+            currencyInfo.let { CurrencyInfo(it.id.first().toString(), it.name, it.symbol) }
+        viewDataBinding.executePendingBindings()
+    }
 }
