@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.crypto.DemoViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,9 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/crypto_currency"
+            android:textColorHint="@color/hint"
             app:boxStrokeColor="@color/selector_stroke_color"
             app:endIconMode="clear_text"
-            android:textColorHint="@color/hint"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -33,8 +37,8 @@
             android:id="@+id/search_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_search"
             android:layout_marginEnd="@dimen/space_16"
+            android:src="@drawable/ic_search"
             app:layout_constraintBottom_toBottomOf="@id/currency_textfield"
             app:layout_constraintEnd_toEndOf="@id/currency_textfield"
             app:layout_constraintTop_toTopOf="@id/currency_textfield" />
@@ -45,7 +49,8 @@
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/currency_textfield" />
+            app:layout_constraintTop_toBottomOf="@id/currency_textfield"
+            app:listData="@{viewModel.currencyInfoListFlow}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

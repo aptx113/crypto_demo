@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.crypto.DemoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_8"
+            android:onClick="@{_ -> viewModel.onDisplayBtnClicked()}"
             android:text="@string/load_list"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"

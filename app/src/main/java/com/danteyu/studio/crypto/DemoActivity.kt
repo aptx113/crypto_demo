@@ -16,22 +16,42 @@
 package com.danteyu.studio.crypto
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.danteyu.studio.crypto.databinding.ActivityDemoBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class DemoActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityDemoBinding
+    private val viewModel by viewModels<DemoViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_demo)
+
+        binding = ActivityDemoBinding.inflate(layoutInflater).also { setContentView(it.root) }
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         val navHostFrag =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFrag.navController
         val appBarConfiguration = AppBarConfiguration(navController.graph)
+
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        viewModel.eventDisplayFlow
+            .onEach { viewModel.getAllCurrencyInfoFlow(JSON_FILE) }
+            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+            .launchIn(lifecycleScope)
     }
 }
