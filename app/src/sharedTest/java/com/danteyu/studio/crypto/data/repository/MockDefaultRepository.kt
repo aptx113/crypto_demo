@@ -25,6 +25,9 @@ class MockDefaultRepository : Repository {
 
     var currencyInfoListFlow: Flow<List<CurrencyInfo>>? = null
 
-    override suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>>? =
+    override suspend fun parseJsonAndGetAll(
+        fileName: String,
+        shouldSort: Boolean
+    ): Flow<List<CurrencyInfo>>? =
         currencyInfoListFlow
 }

@@ -24,6 +24,9 @@ import javax.inject.Inject
  * Created by George Yu in Dec. 2021.
  */
 class DefaultRepository @Inject constructor(private val localDataSource: DataSource) : Repository {
-    override suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>>? =
-        localDataSource.parseJsonAndGetAll(fileName)
+    override suspend fun parseJsonAndGetAll(
+        fileName: String,
+        shouldSort: Boolean
+    ): Flow<List<CurrencyInfo>>? =
+        localDataSource.parseJsonAndGetAll(fileName, shouldSort)
 }

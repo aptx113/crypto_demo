@@ -66,7 +66,7 @@ class LocalDataSourceTest {
 
     @Test
     fun parseJson_insert_getAll() = runBlockingTest {
-        val list = dataSource.parseJsonAndGetAll(TEST_FILE).first()
+        val list = dataSource.parseJsonAndGetAll(TEST_FILE, false).first()
 
         Truth.assertThat(list.size).isEqualTo(4)
         Truth.assertThat(list).isEqualTo(mockCurrencyInfoList)

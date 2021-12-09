@@ -13,26 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.data.source.local.db
+package com.danteyu.studio.crypto
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.danteyu.studio.crypto.model.CurrencyInfo
-import kotlinx.coroutines.flow.Flow
+import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-@Dao
-interface CryptoDao {
-    @Query("SELECT*FROM  currency_table")
-    fun getAllCryptoInfo(): Flow<List<CurrencyInfo>>
-
-    @Query("SELECT * FROM currency_table ORDER BY name ASC")
-    fun getAllCryptoInfoAscending(): Flow<List<CurrencyInfo>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(currencyInfo: List<CurrencyInfo>)
-}
+@AndroidEntryPoint
+class HiltTestActivity : AppCompatActivity()

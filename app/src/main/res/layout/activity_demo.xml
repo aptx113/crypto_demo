@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toStartOf="@+id/sort_list_btn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            bind:onClickChannel="@{viewModel.eventDisplayChannel}" />
+            bind:onSafeClick="@{_ ->viewModel.displayCurrencyInfoList.invoke()}" />
 
         <Button
             android:id="@+id/sort_list_btn"
@@ -53,7 +53,7 @@
             app:layout_constraintStart_toEndOf="@+id/load_list_btn"
             app:layout_constraintTop_toTopOf="@id/load_list_btn"
             bind:enableBButton="@{viewModel.currencyInfoListFlow}"
-            bind:onClickChannel="@{viewModel.eventSortChannel}" />
+            bind:onSafeClick="@{_ ->viewModel.sortCurrencyInfoList.invoke()}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

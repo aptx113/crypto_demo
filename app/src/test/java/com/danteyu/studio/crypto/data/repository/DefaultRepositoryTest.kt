@@ -49,7 +49,7 @@ class DefaultRepositoryTest {
 
     @Test
     fun getAllCurrencyInfo() = runBlockingTest {
-        val result = repository.parseJsonAndGetAll(TEST_FILE)?.first()
+        val result = repository.parseJsonAndGetAll(TEST_FILE, false)?.first()
         Truth.assertThat(result).isEqualTo(mockCurrencyInfoList)
     }
 
@@ -58,7 +58,7 @@ class DefaultRepositoryTest {
         localDataSource = MockLocalDataSource(true)
         repository = DefaultRepository(localDataSource)
 
-        val result = repository.parseJsonAndGetAll(NONEXISTENT_FILE)?.first()
+        val result = repository.parseJsonAndGetAll(NONEXISTENT_FILE, false)?.first()
         Truth.assertThat(result).isNull()
     }
 }

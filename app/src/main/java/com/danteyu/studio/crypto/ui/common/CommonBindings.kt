@@ -19,15 +19,11 @@ import android.view.View
 import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.crypto.R
 import com.danteyu.studio.crypto.ext.setSafeOnClickListener
 import com.danteyu.studio.crypto.model.CurrencyInfo
 import com.danteyu.studio.crypto.ui.currency.CurrencyListAdapter
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
 
 /**
  * Created by George Yu in 12月. 2021.
@@ -35,10 +31,10 @@ import kotlinx.coroutines.launch
 object CommonBindings {
 
     @JvmStatic
-    @BindingAdapter("onClickChannel")
-    fun setOnClickWithChannel(view: View, channel: Channel<Unit>?) =
+    @BindingAdapter("onSafeClick")
+    fun setOnSafeClick(view: View, onClick: (View) -> Unit) =
         view.setSafeOnClickListener {
-            view.findViewTreeLifecycleOwner()?.lifecycleScope?.launch { channel?.send(Unit) }
+            onClick(it)
         }
 
     @JvmStatic

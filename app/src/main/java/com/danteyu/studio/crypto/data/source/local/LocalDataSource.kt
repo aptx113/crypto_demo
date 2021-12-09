@@ -19,9 +19,11 @@ import com.danteyu.studio.crypto.data.source.DataSource
 import com.danteyu.studio.crypto.data.source.local.db.CryptoDao
 import com.danteyu.studio.crypto.data.source.local.json.JsonParser
 import com.danteyu.studio.crypto.model.CurrencyInfo
+import com.danteyu.studio.crypto.ui.common.ControlledRunner
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -33,10 +35,20 @@ class LocalDataSource @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher
 ) :
     DataSource {
-    override suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>> =
+
+    var controlledRunner = ControlledRunner<Flow<List<CurrencyInfo>>>()
+    override suspend fun parseJsonAndGetAll(
+        fileName: String,
+        shouldSort: Boolean
+    ): Flow<List<CurrencyInfo>> =
         withContext(ioDispatcher) {
             val currencyInfoObjects = jsonParser.getCurrencyInfoFromAsset(fileName)
             currencyInfoObjects?.let { dao.insertAll(it) }
-            dao.getAllCryptoInfo()
+
+            controlledRunner.cancelPreviousThenRun {
+                Timber.d("ORZ: $shouldSort")
+                if (shouldSort) dao.getAllCryptoInfoAscending()
+                else dao.getAllCryptoInfo()
+            }
         }
 }

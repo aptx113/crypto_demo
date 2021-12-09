@@ -35,7 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CurrencyListFragment : Fragment() {
 
     val viewModel by activityViewModels<DemoViewModel>()
-    private val adapter by lazy { CurrencyListAdapter() }
+    private val adapter by lazy { CurrencyListAdapter(viewModel) }
 
     override fun onCreateView(
         inflater: LayoutInflater,

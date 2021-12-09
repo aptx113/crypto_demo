@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,24 +38,38 @@ class DemoViewModel @Inject constructor(private val repository: Repository) : Vi
     private val _currencyInfoListFlow = MutableStateFlow<List<CurrencyInfo>>(listOf())
     val currencyInfoListFlow: StateFlow<List<CurrencyInfo>> = _currencyInfoListFlow
 
-    val eventDisplayChannel = Channel<Unit>()
+    private val eventDisplayChannel = Channel<Boolean?>(Channel.RENDEZVOUS)
     val eventDisplayFlow = eventDisplayChannel.receiveAsFlow()
 
-    val eventSortChannel = Channel<Unit>()
+    private val eventSortChannel = Channel<Boolean?>(Channel.RENDEZVOUS)
     val eventSortFlow = eventSortChannel.receiveAsFlow()
 
-    val eventClickChannel = Channel<String>(Channel.CONFLATED)
+    private val itemClickChannel = Channel<String>()
+    val itemClickFlow = itemClickChannel.receiveAsFlow()
+
+    val displayCurrencyInfoList: () -> Unit = {
+        getAllCurrencyInfoFlow(JSON_FILE)
+    }
+
+    val sortCurrencyInfoList: () -> Unit = {
+        getAllCurrencyInfoFlow(JSON_FILE, true)
+    }
 
     fun getAllCurrencyInfoFlow(fileName: String, shouldSort: Boolean = false) =
         viewModelScope.launch {
-            repository.parseJsonAndGetAll(fileName)
+            repository.parseJsonAndGetAll(fileName, shouldSort)
                 ?.filterNotNull()
-                ?.map { currencyInfoList ->
-                    if (shouldSort) currencyInfoList.sortedBy { it.symbol }
-                    else currencyInfoList
-                }
                 ?.collect {
                     _currencyInfoListFlow.value = it
                 }
         }
+
+    fun onDisplayBtnClicked(isClicked: Boolean?) =
+        viewModelScope.launch { eventDisplayChannel.send(isClicked) }
+
+    fun onSortBtnClicked(isClicked: Boolean?) =
+        viewModelScope.launch { eventSortChannel.send(isClicked) }
+
+    fun onItemClicked(currencyName: String) =
+        viewModelScope.launch { itemClickChannel.send(currencyName) }
 }

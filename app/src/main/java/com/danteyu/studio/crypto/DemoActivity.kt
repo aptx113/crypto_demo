@@ -16,6 +16,7 @@
 package com.danteyu.studio.crypto
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -51,14 +52,31 @@ class DemoActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        viewModel.eventDisplayFlow
-            .onEach { viewModel.getAllCurrencyInfoFlow(JSON_FILE) }
-            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+        viewModel.itemClickFlow
+            .onEach {
+                Toast.makeText(this, "Click $it", Toast.LENGTH_SHORT).show()
+            }.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
             .launchIn(lifecycleScope)
 
-        viewModel.eventSortFlow
-            .onEach { viewModel.getAllCurrencyInfoFlow(JSON_FILE, true) }
-            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-            .launchIn(lifecycleScope)
+//        viewModel.eventDisplayFlow
+//            .onEach {
+//                if (it != null) {
+//
+//                    viewModel.getAllCurrencyInfoFlow(JSON_FILE)
+//                    viewModel.onDisplayBtnClicked(null)
+//                }
+//            }
+//            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+//            .launchIn(lifecycleScope)
+
+//        viewModel.eventSortFlow
+//            .onEach {
+//                if (it != null) {
+//                    viewModel.getAllCurrencyInfoFlow(JSON_FILE, true)
+//                    viewModel.onSortBtnClicked(null)
+//                }
+//            }
+//            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+//            .launchIn(lifecycleScope)
     }
 }
