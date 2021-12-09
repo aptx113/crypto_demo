@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto
+package com.danteyu.studio.crypto.ext
+
+import android.view.View
+import com.danteyu.studio.crypto.ui.common.SafeClickListener
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-const val JSON_FILE = "currency.json"
-
-const val CURRENCY_TABLE = "currency_table"
-
-const val CLICK_INTERVAL = 1000
+inline fun View.setSafeOnClickListener(crossinline onSafeClick: (View) -> Unit) {
+    val safeClickListener = SafeClickListener {
+        onSafeClick(it)
+    }
+    setOnClickListener(safeClickListener)
+}

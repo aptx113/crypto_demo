@@ -13,13 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto
+package com.danteyu.studio.crypto.ui.common
+
+import android.os.SystemClock
+import android.view.View
+import com.danteyu.studio.crypto.CLICK_INTERVAL
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-const val JSON_FILE = "currency.json"
-
-const val CURRENCY_TABLE = "currency_table"
-
-const val CLICK_INTERVAL = 1000
+class SafeClickListener(
+    private var defaultInterval: Int = CLICK_INTERVAL,
+    private val onSafeClick: (View) -> Unit
+) : View.OnClickListener {
+    private var lastTimeClicked = 0L
+    override fun onClick(v: View) {
+        if (SystemClock.elapsedRealtime() - lastTimeClicked < defaultInterval) {
+            return
+        }
+        lastTimeClicked = SystemClock.elapsedRealtime()
+        onSafeClick(v)
+    }
+}

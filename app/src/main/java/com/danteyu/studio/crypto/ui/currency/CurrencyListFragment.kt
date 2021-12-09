@@ -55,15 +55,4 @@ class CurrencyListFragment : Fragment() {
         }
         root
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        viewModel.currencyInfoListFlow
-//            .onEach {
-//                adapter.submitList(it)
-//            }
-//            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-//            .launchIn(lifecycleScope)
-//    }
 }

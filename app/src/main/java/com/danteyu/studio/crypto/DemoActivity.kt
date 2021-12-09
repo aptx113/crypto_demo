@@ -38,9 +38,11 @@ class DemoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityDemoBinding.inflate(layoutInflater).also { setContentView(it.root) }
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+        binding =
+            ActivityDemoBinding.inflate(layoutInflater).also { setContentView(it.root) }.apply {
+                lifecycleOwner = this@DemoActivity
+                viewModel = this@DemoActivity.viewModel
+            }
 
         val navHostFrag =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
@@ -51,6 +53,11 @@ class DemoActivity : AppCompatActivity() {
 
         viewModel.eventDisplayFlow
             .onEach { viewModel.getAllCurrencyInfoFlow(JSON_FILE) }
+            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+            .launchIn(lifecycleScope)
+
+        viewModel.eventSortFlow
+            .onEach { viewModel.getAllCurrencyInfoFlow(JSON_FILE, true) }
             .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
             .launchIn(lifecycleScope)
     }

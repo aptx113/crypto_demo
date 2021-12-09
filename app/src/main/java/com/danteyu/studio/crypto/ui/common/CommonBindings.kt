@@ -15,15 +15,31 @@
  */
 package com.danteyu.studio.crypto.ui.common
 
+import android.view.View
+import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.danteyu.studio.crypto.R
+import com.danteyu.studio.crypto.ext.setSafeOnClickListener
 import com.danteyu.studio.crypto.model.CurrencyInfo
 import com.danteyu.studio.crypto.ui.currency.CurrencyListAdapter
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
 
 /**
  * Created by George Yu in 12月. 2021.
  */
 object CommonBindings {
+
+    @JvmStatic
+    @BindingAdapter("onClickChannel")
+    fun setOnClickWithChannel(view: View, channel: Channel<Unit>?) =
+        view.setSafeOnClickListener {
+            view.findViewTreeLifecycleOwner()?.lifecycleScope?.launch { channel?.send(Unit) }
+        }
 
     @JvmStatic
     @BindingAdapter("listData")
@@ -34,6 +50,20 @@ object CommonBindings {
                     is CurrencyListAdapter -> submitList(it.filterIsInstance<CurrencyInfo>())
                 }
             }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("enableBButton")
+    fun bindButtonEnable(btn: Button, item: List<CurrencyInfo>?) {
+        btn.apply {
+            isEnabled = !item.isNullOrEmpty()
+
+            if (item.isNullOrEmpty()) {
+                R.color.crypto_symbol
+            } else {
+                R.color.purple_500
+            }.let { backgroundTintList = ContextCompat.getColorStateList(this.context, it) }
         }
     }
 }

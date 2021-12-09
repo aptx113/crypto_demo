@@ -69,18 +69,18 @@ class DemoViewModelTest {
         )
         Truth.assertThat(currencyInListFlow.first()[0]).isEqualTo(mockCurrencyInfoList[0])
     }
-
-    @Test
-    fun sendDisplayEvent() = runBlockingTest {
-        demoViewModel.onDisplayBtnClicked()
-
-        Truth.assertThat(demoViewModel.eventDisplayFlow.first()).isEqualTo(true)
-    }
-
-    @Test
-    fun sendSortEvent() = runBlockingTest {
-        demoViewModel.onSortBtnClicked()
-
-        Truth.assertThat(demoViewModel.eventSortFlow.first()).isEqualTo(true)
-    }
+//
+//    @Test
+//    fun sendDisplayEvent() = runBlockingTest {
+//        demoViewModel.onDisplayBtnClicked()
+//
+//        Truth.assertThat(demoViewModel.eventDisplayFlow.first()).isEqualTo(true)
+//    }
+//
+//    @Test
+//    fun sendSortEvent() = runBlockingTest {
+//        demoViewModel.onSortBtnClicked()
+//
+//        Truth.assertThat(demoViewModel.eventSortFlow.first()).isEqualTo(true)
+//    }
 }

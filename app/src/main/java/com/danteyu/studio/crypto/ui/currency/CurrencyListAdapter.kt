@@ -41,7 +41,7 @@ class CurrencyListAdapter :
 
     companion object CurrencyListDiffUtil : DiffUtil.ItemCallback<CurrencyInfo>() {
         override fun areItemsTheSame(oldItem: CurrencyInfo, newItem: CurrencyInfo): Boolean =
-            oldItem.id == newItem.id
+            oldItem.name == newItem.name
 
         override fun areContentsTheSame(oldItem: CurrencyInfo, newItem: CurrencyInfo): Boolean =
             oldItem == newItem
