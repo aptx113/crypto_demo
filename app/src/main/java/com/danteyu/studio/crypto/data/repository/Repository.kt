@@ -22,5 +22,6 @@ import kotlinx.coroutines.flow.Flow
  * Created by George Yu in Dec. 2021.
  */
 interface Repository {
-    suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>>?
+    suspend fun parseJsonAndInsert(fileName: String): Boolean
+    suspend fun getAllCurrencyInfo(shouldSort: Boolean): Flow<List<CurrencyInfo>>?
 }

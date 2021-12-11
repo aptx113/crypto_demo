@@ -21,3 +21,5 @@ package com.danteyu.studio.crypto
 const val JSON_FILE = "currency.json"
 
 const val CURRENCY_TABLE = "currency_table"
+
+const val CLICK_INTERVAL = 1000

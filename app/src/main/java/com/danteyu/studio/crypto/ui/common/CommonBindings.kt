@@ -15,8 +15,13 @@
  */
 package com.danteyu.studio.crypto.ui.common
 
+import android.view.View
+import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.danteyu.studio.crypto.R
+import com.danteyu.studio.crypto.ext.setSafeOnClickListener
 import com.danteyu.studio.crypto.model.CurrencyInfo
 import com.danteyu.studio.crypto.ui.currency.CurrencyListAdapter
 
@@ -25,15 +30,41 @@ import com.danteyu.studio.crypto.ui.currency.CurrencyListAdapter
  */
 object CommonBindings {
 
+    private const val DELAY_FOR_REVERSE_LIST_TIME: Long = 200
+
+    @JvmStatic
+    @BindingAdapter("onSafeClick")
+    fun setOnSafeClick(view: View, onClick: (View) -> Unit) =
+        view.setSafeOnClickListener {
+            onClick(it)
+        }
+
     @JvmStatic
     @BindingAdapter("listData")
-    fun bindListData(recyclerView: RecyclerView, items: List<*>?) {
+    fun bindListData(recyclerView: RecyclerView, items: List<CurrencyInfo>?) {
         items?.let {
-            with(recyclerView.adapter ?: return) {
-                when (this) {
-                    is CurrencyListAdapter -> submitList(it.filterIsInstance<CurrencyInfo>())
-                }
-            }
+            if (recyclerView.adapter == null) return
+            (recyclerView.adapter as CurrencyListAdapter).submitList(it)
+            recyclerView.postDelayed(
+                {
+                    recyclerView.scrollToPosition(0)
+                },
+                DELAY_FOR_REVERSE_LIST_TIME
+            )
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("enableBButton")
+    fun bindButtonEnable(btn: Button, item: List<CurrencyInfo>?) {
+        btn.apply {
+            isEnabled = !item.isNullOrEmpty()
+
+            if (item.isNullOrEmpty()) {
+                R.color.crypto_symbol
+            } else {
+                R.color.purple_500
+            }.let { backgroundTintList = ContextCompat.getColorStateList(this.context, it) }
         }
     }
 }

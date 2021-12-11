@@ -19,13 +19,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.danteyu.studio.crypto.DemoViewModel
 import com.danteyu.studio.crypto.databinding.ItemCurrencyBinding
+import com.danteyu.studio.crypto.ext.setSafeOnClickListener
 import com.danteyu.studio.crypto.model.CurrencyInfo
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-class CurrencyListAdapter :
+class CurrencyListAdapter(val viewModel: DemoViewModel) :
     ListAdapter<CurrencyInfo, CurrencyListViewHolder>(CurrencyListDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyListViewHolder {
@@ -37,11 +39,14 @@ class CurrencyListAdapter :
 
     override fun onBindViewHolder(holder: CurrencyListViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setSafeOnClickListener {
+            viewModel.onItemClicked(getItem(position).name)
+        }
     }
 
     companion object CurrencyListDiffUtil : DiffUtil.ItemCallback<CurrencyInfo>() {
         override fun areItemsTheSame(oldItem: CurrencyInfo, newItem: CurrencyInfo): Boolean =
-            oldItem.id == newItem.id
+            oldItem.name == newItem.name
 
         override fun areContentsTheSame(oldItem: CurrencyInfo, newItem: CurrencyInfo): Boolean =
             oldItem == newItem

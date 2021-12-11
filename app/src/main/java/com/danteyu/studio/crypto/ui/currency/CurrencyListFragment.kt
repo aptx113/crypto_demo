@@ -23,6 +23,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.crypto.DemoViewModel
 import com.danteyu.studio.crypto.R
 import com.danteyu.studio.crypto.databinding.FragListCurrencyBinding
@@ -35,7 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CurrencyListFragment : Fragment() {
 
     val viewModel by activityViewModels<DemoViewModel>()
-    private val adapter by lazy { CurrencyListAdapter() }
+    private val adapter by lazy { CurrencyListAdapter(viewModel) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +45,12 @@ class CurrencyListFragment : Fragment() {
     ): View = FragListCurrencyBinding.inflate(layoutInflater, container, false).run {
         lifecycleOwner = viewLifecycleOwner
         this.viewModel = this@CurrencyListFragment.viewModel
-        currencyRecycler.apply {
+        setupRecyclerView(currencyRecycler)
+        root
+    }
+
+    private fun setupRecyclerView(recycler: RecyclerView) {
+        recycler.apply {
             adapter = this@CurrencyListFragment.adapter
 
             val itemDecoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
@@ -53,17 +59,5 @@ class CurrencyListFragment : Fragment() {
             }
             addItemDecoration(itemDecoration)
         }
-        root
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        viewModel.currencyInfoListFlow
-//            .onEach {
-//                adapter.submitList(it)
-//            }
-//            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-//            .launchIn(lifecycleScope)
-//    }
 }

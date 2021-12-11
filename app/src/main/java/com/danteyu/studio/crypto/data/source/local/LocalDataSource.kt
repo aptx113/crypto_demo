@@ -33,10 +33,19 @@ class LocalDataSource @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher
 ) :
     DataSource {
-    override suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>> =
+
+    override suspend fun parseJsonAndInsert(fileName: String): Boolean =
         withContext(ioDispatcher) {
+            var result = false
             val currencyInfoObjects = jsonParser.getCurrencyInfoFromAsset(fileName)
-            currencyInfoObjects?.let { dao.insertAll(it) }
-            dao.getAllCryptoInfo()
+            if (currencyInfoObjects != null) {
+                dao.insertAll(currencyInfoObjects)
+                result = true
+            }
+            result
         }
+
+    override fun getAllCurrencyInfo(shouldSort: Boolean): Flow<List<CurrencyInfo>> {
+        return if (shouldSort) dao.getAllCryptoInfoAscending() else dao.getAllCryptoInfo()
+    }
 }

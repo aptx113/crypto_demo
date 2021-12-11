@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.data.source
+package com.danteyu.studio.crypto
 
-import com.danteyu.studio.crypto.model.CurrencyInfo
-import kotlinx.coroutines.flow.Flow
+import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-interface DataSource {
-
-    suspend fun parseJsonAndInsert(fileName: String): Boolean
-    fun getAllCurrencyInfo(shouldSort: Boolean): Flow<List<CurrencyInfo>>?
-}
+@AndroidEntryPoint
+class HiltTestActivity : AppCompatActivity()

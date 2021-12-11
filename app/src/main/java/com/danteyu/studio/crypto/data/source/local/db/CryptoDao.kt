@@ -30,6 +30,9 @@ interface CryptoDao {
     @Query("SELECT*FROM  currency_table")
     fun getAllCryptoInfo(): Flow<List<CurrencyInfo>>
 
+    @Query("SELECT * FROM currency_table ORDER BY name ASC")
+    fun getAllCryptoInfoAscending(): Flow<List<CurrencyInfo>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(currencyInfo: List<CurrencyInfo>)
 }

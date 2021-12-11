@@ -17,6 +17,7 @@ package com.danteyu.studio.crypto.data.repository
 
 import com.danteyu.studio.crypto.data.source.DataSource
 import com.danteyu.studio.crypto.model.CurrencyInfo
+import com.danteyu.studio.crypto.ui.common.ControlledRunner
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -24,6 +25,19 @@ import javax.inject.Inject
  * Created by George Yu in Dec. 2021.
  */
 class DefaultRepository @Inject constructor(private val localDataSource: DataSource) : Repository {
-    override suspend fun parseJsonAndGetAll(fileName: String): Flow<List<CurrencyInfo>>? =
-        localDataSource.parseJsonAndGetAll(fileName)
+    private var controlledRunner = ControlledRunner<Flow<List<CurrencyInfo>>?>()
+
+    override suspend fun parseJsonAndInsert(fileName: String): Boolean {
+        var isInsert = false
+        if (localDataSource.parseJsonAndInsert(fileName)) {
+            localDataSource.parseJsonAndInsert(fileName)
+            isInsert = true
+        }
+        return isInsert
+    }
+
+    override suspend fun getAllCurrencyInfo(shouldSort: Boolean): Flow<List<CurrencyInfo>>? =
+        controlledRunner.cancelPreviousThenRun {
+            localDataSource.getAllCurrencyInfo(shouldSort)
+        }
 }

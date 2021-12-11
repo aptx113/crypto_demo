@@ -13,16 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.danteyu.studio.crypto.data.source
+package com.danteyu.studio.crypto.ui.common
 
-import com.danteyu.studio.crypto.model.CurrencyInfo
-import kotlinx.coroutines.flow.Flow
+import android.os.SystemClock
+import android.view.View
+import com.danteyu.studio.crypto.CLICK_INTERVAL
 
 /**
  * Created by George Yu in Dec. 2021.
  */
-interface DataSource {
-
-    suspend fun parseJsonAndInsert(fileName: String): Boolean
-    fun getAllCurrencyInfo(shouldSort: Boolean): Flow<List<CurrencyInfo>>?
+class SafeClickListener(
+    private var defaultInterval: Int = CLICK_INTERVAL,
+    private val onSafeClick: (View) -> Unit
+) : View.OnClickListener {
+    private var lastTimeClicked = 0L
+    override fun onClick(v: View) {
+        if (SystemClock.elapsedRealtime() - lastTimeClicked < defaultInterval) {
+            return
+        }
+        lastTimeClicked = SystemClock.elapsedRealtime()
+        onSafeClick(v)
+    }
 }

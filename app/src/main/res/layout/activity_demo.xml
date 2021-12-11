@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -31,13 +32,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_8"
-            android:onClick="@{_ -> viewModel.onDisplayBtnClicked()}"
             android:text="@string/load_list"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/sort_list_btn"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            bind:onSafeClick="@{_ ->viewModel.displayCurrencyInfoList.invoke()}" />
 
         <Button
             android:id="@+id/sort_list_btn"
@@ -45,11 +46,14 @@
             android:layout_height="wrap_content"
             android:text="@string/sort_list"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/load_list_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/load_list_btn"
-            app:layout_constraintTop_toTopOf="@id/load_list_btn" />
+            app:layout_constraintTop_toTopOf="@id/load_list_btn"
+            bind:enableBButton="@{viewModel.currencyInfoListFlow}"
+            bind:onSafeClick="@{_ ->viewModel.sortCurrencyInfoList.invoke()}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
