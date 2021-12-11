@@ -57,6 +57,8 @@ class LocalDataSourceTest {
         dao = mockk {
             coEvery { insertAll(mockCurrencyInfoList) } just Runs
             every { getAllCryptoInfo() } returns flowOf(mockCurrencyInfoList)
+            every { getAllCryptoInfoAscending() } returns
+                flowOf(mockCurrencyInfoList.sortedBy { it.name })
         }
         jsonParser =
             mockk { coEvery { getCurrencyInfoFromAsset(TEST_FILE) } returns mockCurrencyInfoList }
@@ -65,10 +67,20 @@ class LocalDataSourceTest {
     }
 
     @Test
-    fun parseJson_insert_getAll() = runBlockingTest {
-        val list = dataSource.parseJsonAndGetAll(TEST_FILE, false).first()
+    fun insert_getAllCurrencyInfo() = runBlockingTest {
+        dataSource.parseJsonAndInsert(TEST_FILE)
+        val list = dataSource.getAllCurrencyInfo(false).first()
 
         Truth.assertThat(list.size).isEqualTo(4)
         Truth.assertThat(list).isEqualTo(mockCurrencyInfoList)
+    }
+
+    @Test
+    fun insert_getAllSortedCurrencyInfo() = runBlockingTest {
+        dataSource.parseJsonAndInsert(TEST_FILE)
+        val sortedList = dataSource.getAllCurrencyInfo(true).first()
+
+        Truth.assertThat(sortedList.size).isEqualTo(4)
+        Truth.assertThat(sortedList).isEqualTo(mockCurrencyInfoList.sortedBy { it.name })
     }
 }

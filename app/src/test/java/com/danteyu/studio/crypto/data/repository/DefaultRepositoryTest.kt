@@ -16,8 +16,6 @@
 package com.danteyu.studio.crypto.data.repository
 
 import com.danteyu.studio.crypto.MainCoroutineRule
-import com.danteyu.studio.crypto.NONEXISTENT_FILE
-import com.danteyu.studio.crypto.TEST_FILE
 import com.danteyu.studio.crypto.data.mockCurrencyInfoList
 import com.danteyu.studio.crypto.data.source.DataSource
 import com.danteyu.studio.crypto.data.source.local.MockLocalDataSource
@@ -49,7 +47,7 @@ class DefaultRepositoryTest {
 
     @Test
     fun getAllCurrencyInfo() = runBlockingTest {
-        val result = repository.parseJsonAndGetAll(TEST_FILE, false)?.first()
+        val result = repository.getAllCurrencyInfo(false)?.first()
         Truth.assertThat(result).isEqualTo(mockCurrencyInfoList)
     }
 
@@ -58,7 +56,7 @@ class DefaultRepositoryTest {
         localDataSource = MockLocalDataSource(true)
         repository = DefaultRepository(localDataSource)
 
-        val result = repository.parseJsonAndGetAll(NONEXISTENT_FILE, false)?.first()
+        val result = repository.getAllCurrencyInfo(false)?.first()
         Truth.assertThat(result).isNull()
     }
 }

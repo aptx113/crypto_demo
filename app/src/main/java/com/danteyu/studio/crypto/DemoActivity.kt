@@ -54,7 +54,7 @@ class DemoActivity : AppCompatActivity() {
 
         viewModel.itemClickFlow
             .onEach {
-                Toast.makeText(this, "Click $it", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "$it clicked", Toast.LENGTH_SHORT).show()
             }.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
             .launchIn(lifecycleScope)
     }

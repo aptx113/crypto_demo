@@ -67,10 +67,6 @@ configure<SpotlessExtension> {
                 )
             )
         )
-        licenseHeaderFile(
-            rootProject.file(".spotless/copyright.kt"),
-            "^(package|object|import|interface)"
-        )
         trimTrailingWhitespace()
         indentWithSpaces()
         endWithNewline()
@@ -85,10 +81,6 @@ configure<SpotlessExtension> {
                     "exclude" to listOf("**/build/**")
                 )
             )
-        )
-        licenseHeaderFile(
-            rootProject.file(".spotless/copyright.kt"),
-            "package|import|tasks|apply|plugins|pluginManagement|include|val|object|interface"
         )
         trimTrailingWhitespace()
         indentWithSpaces()

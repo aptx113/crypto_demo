@@ -61,7 +61,8 @@ class DemoViewModelTest {
 
     @Test
     fun loadCurrencyList_getCurrencyList() = runBlockingTest {
-        demoViewModel.getAllCurrencyInfoFlow(TEST_FILE)
+        demoViewModel.parseJsonAndInsert(TEST_FILE)
+        demoViewModel.getAllCurrencyInfo()
         val currencyInListFlow = demoViewModel.currencyInfoListFlow
 
         Truth.assertThat(currencyInListFlow.first().size).isEqualTo(
@@ -69,18 +70,11 @@ class DemoViewModelTest {
         )
         Truth.assertThat(currencyInListFlow.first()[0]).isEqualTo(mockCurrencyInfoList[0])
     }
-//
-//    @Test
-//    fun sendDisplayEvent() = runBlockingTest {
-//        demoViewModel.onDisplayBtnClicked()
-//
-//        Truth.assertThat(demoViewModel.eventDisplayFlow.first()).isEqualTo(true)
-//    }
-//
-//    @Test
-//    fun sendSortEvent() = runBlockingTest {
-//        demoViewModel.onSortBtnClicked()
-//
-//        Truth.assertThat(demoViewModel.eventSortFlow.first()).isEqualTo(true)
-//    }
+
+    @Test
+    fun sendClickItem() = runBlockingTest {
+        demoViewModel.onItemClicked("")
+
+        Truth.assertThat(demoViewModel.itemClickFlow.first()).isEqualTo("")
+    }
 }

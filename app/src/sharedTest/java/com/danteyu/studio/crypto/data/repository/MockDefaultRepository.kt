@@ -24,10 +24,8 @@ import kotlinx.coroutines.flow.Flow
 class MockDefaultRepository : Repository {
 
     var currencyInfoListFlow: Flow<List<CurrencyInfo>>? = null
+    override suspend fun parseJsonAndInsert(fileName: String): Boolean = true
 
-    override suspend fun parseJsonAndGetAll(
-        fileName: String,
-        shouldSort: Boolean
-    ): Flow<List<CurrencyInfo>>? =
+    override suspend fun getAllCurrencyInfo(shouldSort: Boolean): Flow<List<CurrencyInfo>>? =
         currencyInfoListFlow
 }

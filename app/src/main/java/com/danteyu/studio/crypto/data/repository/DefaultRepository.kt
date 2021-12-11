@@ -27,10 +27,17 @@ import javax.inject.Inject
 class DefaultRepository @Inject constructor(private val localDataSource: DataSource) : Repository {
     private var controlledRunner = ControlledRunner<Flow<List<CurrencyInfo>>?>()
 
-    override suspend fun parseJsonAndGetAll(
-        fileName: String,
-        shouldSort: Boolean
-    ): Flow<List<CurrencyInfo>>? = controlledRunner.cancelPreviousThenRun {
-        localDataSource.parseJsonAndGetAll(fileName, shouldSort)
+    override suspend fun parseJsonAndInsert(fileName: String): Boolean {
+        var isInsert = false
+        if (localDataSource.parseJsonAndInsert(fileName)) {
+            localDataSource.parseJsonAndInsert(fileName)
+            isInsert = true
+        }
+        return isInsert
     }
+
+    override suspend fun getAllCurrencyInfo(shouldSort: Boolean): Flow<List<CurrencyInfo>>? =
+        controlledRunner.cancelPreviousThenRun {
+            localDataSource.getAllCurrencyInfo(shouldSort)
+        }
 }

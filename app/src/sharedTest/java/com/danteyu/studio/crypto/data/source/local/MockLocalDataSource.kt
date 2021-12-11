@@ -25,10 +25,10 @@ import kotlinx.coroutines.flow.flow
  * Created by George Yu in Dec. 2021.
  */
 class MockLocalDataSource(private val isNullTest: Boolean = false) : DataSource {
-    override suspend fun parseJsonAndGetAll(
-        fileName: String,
-        shouldSort: Boolean
-    ): Flow<List<CurrencyInfo>>? {
+
+    override suspend fun parseJsonAndInsert(fileName: String): Boolean = true
+
+    override fun getAllCurrencyInfo(shouldSort: Boolean): Flow<List<CurrencyInfo>>? {
         return if (isNullTest) null else flow { emit(mockCurrencyInfoList) }
     }
 }

@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -44,23 +43,26 @@ class DemoViewModel @Inject constructor(private val repository: Repository) : Vi
     val itemClickFlow = itemClickChannel.receiveAsFlow()
 
     val displayCurrencyInfoList: () -> Unit = {
-        Timber.w("ORZ displayCurrencyInfoList")
-        getAllCurrencyInfoFlow(JSON_FILE)
+        getAllCurrencyInfo()
     }
 
     val sortCurrencyInfoList: () -> Unit = {
-        Timber.w(("ORZ sortCurrencyInfoList"))
-        getAllCurrencyInfoFlow(JSON_FILE, true)
+        getAllCurrencyInfo(true)
     }
 
-    fun getAllCurrencyInfoFlow(fileName: String, shouldSort: Boolean = false) =
+    init {
+        parseJsonAndInsert(JSON_FILE)
+    }
+
+    fun parseJsonAndInsert(fileName: String) = viewModelScope.launch {
+        repository.parseJsonAndInsert(fileName)
+    }
+
+    fun getAllCurrencyInfo(shouldSort: Boolean = false) =
         viewModelScope.launch {
-            Timber.d("ORZ getAllCurrencyInfoFlow")
-            repository.parseJsonAndGetAll(fileName, shouldSort)
-                ?.distinctUntilChanged()
+            repository.getAllCurrencyInfo(shouldSort)
                 ?.catch { exception -> Timber.e("ORZ get $exception") }
                 ?.collect {
-                    Timber.e("ORZ collect : $it")
                     _currencyInfoListFlow.value = it
                 }
         }

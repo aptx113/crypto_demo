@@ -24,7 +24,6 @@ import com.danteyu.studio.crypto.R
 import com.danteyu.studio.crypto.ext.setSafeOnClickListener
 import com.danteyu.studio.crypto.model.CurrencyInfo
 import com.danteyu.studio.crypto.ui.currency.CurrencyListAdapter
-import timber.log.Timber
 
 /**
  * Created by George Yu in 12月. 2021.
@@ -43,7 +42,6 @@ object CommonBindings {
     @JvmStatic
     @BindingAdapter("listData")
     fun bindListData(recyclerView: RecyclerView, items: List<CurrencyInfo>?) {
-        Timber.d("ORZ bindListData")
         items?.let {
             if (recyclerView.adapter == null) return
             (recyclerView.adapter as CurrencyListAdapter).submitList(it)
