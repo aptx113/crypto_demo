@@ -24,11 +24,14 @@ import com.danteyu.studio.crypto.R
 import com.danteyu.studio.crypto.ext.setSafeOnClickListener
 import com.danteyu.studio.crypto.model.CurrencyInfo
 import com.danteyu.studio.crypto.ui.currency.CurrencyListAdapter
+import timber.log.Timber
 
 /**
  * Created by George Yu in 12月. 2021.
  */
 object CommonBindings {
+
+    private const val DELAY_FOR_REVERSE_LIST_TIME: Long = 200
 
     @JvmStatic
     @BindingAdapter("onSafeClick")
@@ -39,13 +42,17 @@ object CommonBindings {
 
     @JvmStatic
     @BindingAdapter("listData")
-    fun bindListData(recyclerView: RecyclerView, items: List<*>?) {
+    fun bindListData(recyclerView: RecyclerView, items: List<CurrencyInfo>?) {
+        Timber.d("ORZ bindListData")
         items?.let {
-            with(recyclerView.adapter ?: return) {
-                when (this) {
-                    is CurrencyListAdapter -> submitList(it.filterIsInstance<CurrencyInfo>())
-                }
-            }
+            if (recyclerView.adapter == null) return
+            (recyclerView.adapter as CurrencyListAdapter).submitList(it)
+            recyclerView.postDelayed(
+                {
+                    recyclerView.scrollToPosition(0)
+                },
+                DELAY_FOR_REVERSE_LIST_TIME
+            )
         }
     }
 

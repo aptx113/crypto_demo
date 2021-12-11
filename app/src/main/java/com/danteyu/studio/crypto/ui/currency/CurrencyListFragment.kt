@@ -23,6 +23,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.crypto.DemoViewModel
 import com.danteyu.studio.crypto.R
 import com.danteyu.studio.crypto.databinding.FragListCurrencyBinding
@@ -44,7 +45,12 @@ class CurrencyListFragment : Fragment() {
     ): View = FragListCurrencyBinding.inflate(layoutInflater, container, false).run {
         lifecycleOwner = viewLifecycleOwner
         this.viewModel = this@CurrencyListFragment.viewModel
-        currencyRecycler.apply {
+        setupRecyclerView(currencyRecycler)
+        root
+    }
+
+    private fun setupRecyclerView(recycler: RecyclerView) {
+        recycler.apply {
             adapter = this@CurrencyListFragment.adapter
 
             val itemDecoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
@@ -53,6 +59,5 @@ class CurrencyListFragment : Fragment() {
             }
             addItemDecoration(itemDecoration)
         }
-        root
     }
 }

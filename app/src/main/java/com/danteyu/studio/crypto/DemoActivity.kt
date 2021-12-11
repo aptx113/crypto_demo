@@ -57,26 +57,5 @@ class DemoActivity : AppCompatActivity() {
                 Toast.makeText(this, "Click $it", Toast.LENGTH_SHORT).show()
             }.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
             .launchIn(lifecycleScope)
-
-//        viewModel.eventDisplayFlow
-//            .onEach {
-//                if (it != null) {
-//
-//                    viewModel.getAllCurrencyInfoFlow(JSON_FILE)
-//                    viewModel.onDisplayBtnClicked(null)
-//                }
-//            }
-//            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-//            .launchIn(lifecycleScope)
-
-//        viewModel.eventSortFlow
-//            .onEach {
-//                if (it != null) {
-//                    viewModel.getAllCurrencyInfoFlow(JSON_FILE, true)
-//                    viewModel.onSortBtnClicked(null)
-//                }
-//            }
-//            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-//            .launchIn(lifecycleScope)
     }
 }

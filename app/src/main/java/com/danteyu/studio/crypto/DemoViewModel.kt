@@ -23,10 +23,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -38,37 +40,30 @@ class DemoViewModel @Inject constructor(private val repository: Repository) : Vi
     private val _currencyInfoListFlow = MutableStateFlow<List<CurrencyInfo>>(listOf())
     val currencyInfoListFlow: StateFlow<List<CurrencyInfo>> = _currencyInfoListFlow
 
-    private val eventDisplayChannel = Channel<Boolean?>(Channel.RENDEZVOUS)
-    val eventDisplayFlow = eventDisplayChannel.receiveAsFlow()
-
-    private val eventSortChannel = Channel<Boolean?>(Channel.RENDEZVOUS)
-    val eventSortFlow = eventSortChannel.receiveAsFlow()
-
     private val itemClickChannel = Channel<String>()
     val itemClickFlow = itemClickChannel.receiveAsFlow()
 
     val displayCurrencyInfoList: () -> Unit = {
+        Timber.w("ORZ displayCurrencyInfoList")
         getAllCurrencyInfoFlow(JSON_FILE)
     }
 
     val sortCurrencyInfoList: () -> Unit = {
+        Timber.w(("ORZ sortCurrencyInfoList"))
         getAllCurrencyInfoFlow(JSON_FILE, true)
     }
 
     fun getAllCurrencyInfoFlow(fileName: String, shouldSort: Boolean = false) =
         viewModelScope.launch {
+            Timber.d("ORZ getAllCurrencyInfoFlow")
             repository.parseJsonAndGetAll(fileName, shouldSort)
-                ?.filterNotNull()
+                ?.distinctUntilChanged()
+                ?.catch { exception -> Timber.e("ORZ get $exception") }
                 ?.collect {
+                    Timber.e("ORZ collect : $it")
                     _currencyInfoListFlow.value = it
                 }
         }
-
-    fun onDisplayBtnClicked(isClicked: Boolean?) =
-        viewModelScope.launch { eventDisplayChannel.send(isClicked) }
-
-    fun onSortBtnClicked(isClicked: Boolean?) =
-        viewModelScope.launch { eventSortChannel.send(isClicked) }
 
     fun onItemClicked(currencyName: String) =
         viewModelScope.launch { itemClickChannel.send(currencyName) }
