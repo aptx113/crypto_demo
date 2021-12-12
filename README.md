@@ -7,7 +7,9 @@ This Repo also adds tests to test ViewModel, Repository, and Dao, etc.
 
 ## Feature
 1. Display list of CurrencyInfo
+<img width="300" height="600" src="https://github.com/aptx113/crypto_demo/blob/master/preview/ezgif-3-765bba2d7b52.gif"/>
 2. Sort CurrencyInfo
+<img width="300" height="600" src="https://github.com/aptx113/crypto_demo/blob/master/preview/ezgif-3-191cf476a7f9.gif"/>
 
 ## Tech stack & Open-source libraries
 - Minimum SDK level 26
