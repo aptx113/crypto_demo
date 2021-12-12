@@ -19,6 +19,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +27,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.danteyu.studio.crypto.databinding.ActivityDemoBinding
+import com.danteyu.studio.crypto.model.CurrencyInfo
+import com.danteyu.studio.crypto.ui.currency.CurrencyListFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -52,10 +55,30 @@ class DemoActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        viewModel.currencyInfoListFlow
+            .onEach {
+                val fragmentTransaction = supportFragmentManager.beginTransaction()
+                val fragment = CurrencyListFragment()
+                fragment.arguments = putDataIntoBundle(it)
+                fragmentTransaction.replace(R.id.nav_host_fragment_container, fragment)
+                    .setTransition(
+                        FragmentTransaction.TRANSIT_FRAGMENT_FADE
+                    ).commit()
+            }
+            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+            .launchIn(lifecycleScope)
+
         viewModel.itemClickFlow
             .onEach {
                 Toast.makeText(this, "$it clicked", Toast.LENGTH_SHORT).show()
             }.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
             .launchIn(lifecycleScope)
+    }
+
+    private fun putDataIntoBundle(currencyInfoList: List<CurrencyInfo>): Bundle {
+        val bundle = Bundle()
+        val array = arrayListOf<CurrencyInfo>().apply { addAll(currencyInfoList) }
+        bundle.putParcelableArrayList(CURRENCY_KEY, array)
+        return bundle
     }
 }

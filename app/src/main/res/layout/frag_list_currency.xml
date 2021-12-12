@@ -49,8 +49,7 @@
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/currency_textfield"
-            app:listData="@{viewModel.currencyInfoListFlow}" />
+            app:layout_constraintTop_toBottomOf="@id/currency_textfield" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

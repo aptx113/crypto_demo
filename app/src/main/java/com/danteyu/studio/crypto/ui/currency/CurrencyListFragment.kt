@@ -24,9 +24,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.danteyu.studio.crypto.CURRENCY_KEY
 import com.danteyu.studio.crypto.DemoViewModel
 import com.danteyu.studio.crypto.R
 import com.danteyu.studio.crypto.databinding.FragListCurrencyBinding
+import com.danteyu.studio.crypto.model.CurrencyInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -47,6 +49,14 @@ class CurrencyListFragment : Fragment() {
         this.viewModel = this@CurrencyListFragment.viewModel
         setupRecyclerView(currencyRecycler)
         root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val currencyInfoList: List<CurrencyInfo>? =
+            arguments?.getParcelableArrayList(CURRENCY_KEY)
+        adapter.submitList(currencyInfoList)
     }
 
     private fun setupRecyclerView(recycler: RecyclerView) {
